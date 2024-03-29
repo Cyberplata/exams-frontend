@@ -1,30 +1,33 @@
-type NewsType = {
-    title: string
-    author: string
-}
-type ArticleType = {
-    title: string
-    date: string
-    text: string
-}
-type PagePropsType = {
-    news: NewsType[]
-    mainArticle: ArticleType
-}
-export const Page: React.FC<PagePropsType> = (props) => {
+import ReactDOM from 'react-dom'
+
+const Son = (props: any) => {
     return <div>
-        <article>
-            <h1>Название: {props.mainArticle.title}</h1>
-            <div>{props.mainArticle.date}</div>
-            <div>{props.mainArticle.text}</div>
-        </article>
-        <aside>Articles:
-            <ul>
-                {props.news.map(n => <li>{n.title}, {n.author}</li>)}
-            </ul>
-        </aside>
+        I am son. My name is {props.name}
     </div>
 }
 
-//Что нужно написать вместо XXX и YYY? Ответ дайте через пробел, например:
-// car user
+
+const Father = (props: any) => {
+    return <div>
+        I am father. My name is {props.name}
+        <Son name={props.sonName} />
+    </div>
+}
+
+const Granny = (props: any) => {
+    return <div>
+        I am granny. My name is {props.name}
+        <Father name={props.fatherName} sonName={props.sonName} />
+    </div>
+}
+
+export const App = () => {
+    return <div>
+        <Granny name={'Бабуля'} fatherName={'Батя'} sonName={'Сын'}/>
+    </div>
+}
+
+ReactDOM.render(<App/>,
+    document.getElementById('root')
+)
+//Что нужно написать вместо XXX YYY ZZZ? Ответ дайте через пробел
