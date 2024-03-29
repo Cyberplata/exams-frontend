@@ -1,33 +1,26 @@
-import ReactDOM from 'react-dom'
-
-const Son = (props: any) => {
-    return <div>
-        I am son. My name is {props.name}
-    </div>
+type UserWalletType = {
+    title: string
+    amount: number
+}
+type UserWalletPropsType = {
+    wallet: UserWalletType
 }
 
-
-const Father = (props: any) => {
-    return <div>
-        I am father. My name is {props.name}
-        <Son name={props.sonName} />
-    </div>
+export const UserWallet: React.FC<UserWalletPropsType> = (props) => {
+    return <div>title: {props.wallet.title}, amount: {props.wallet.amount}</div>
 }
 
-const Granny = (props: any) => {
+export const UserMoney = () => {
+    const wallets = [
+        {title: 'bitcoin', amount: 1},
+        {title: '$', amount: 100}
+    ]
+
     return <div>
-        I am granny. My name is {props.name}
-        <Father name={props.fatherName} sonName={props.sonName} />
+        <UserWallet wallet={} />
+        <UserWallet wallet={yyy} />
     </div>
 }
-
-export const App = () => {
-    return <div>
-        <Granny name={'Бабуля'} fatherName={'Батя'} sonName={'Сын'}/>
-    </div>
-}
-
-ReactDOM.render(<App/>,
-    document.getElementById('root')
-)
-//Что нужно написать вместо XXX YYY ZZZ? Ответ дайте через пробел
+//Что нужно написать вместо xxx и yyy, чтобы компонент UserMoney отобразил информацию о двух кошельках (bitcoin и $)?
+//
+// Ответ дайте через пробел, например: props.x wallets
