@@ -1,15 +1,30 @@
-type PropsType = {
-    city: string        // 'minsk'
-    country: string     // 'belarus'
-    coords?: string     // '53.917501,27.604851'
+type NewsType = {
+    title: string
+    author: string
+}
+type ArticleType = {
+    title: string
+    date: string
+    text: string
+}
+type PagePropsType = {
+    news: NewsType[]
+    mainArticle: ArticleType
+}
+export const Page: React.FC<PagePropsType> = (props) => {
+    return <div>
+        <article>
+            <h1>Название: {props.mainArticle.title}</h1>
+            <div>{props.mainArticle.date}</div>
+            <div>{props.mainArticle.text}</div>
+        </article>
+        <aside>Articles:
+            <ul>
+                {props.news.map(n => <li>{n.title}, {n.author}</li>)}
+            </ul>
+        </aside>
+    </div>
 }
 
-export const Wrapper1 = () => {
-    return <PropsComponent1 city='minsk' country={'belarus'}/>
-}
-
-export const PropsComponent1: React.FC<PropsType> = (props) => {
-    return <div>hello</div>
-}
-
-// Что МИНИМАЛЬНО ДОСТАТОЧНО нужно дописать в строке 8 (cтрока с ошибкой), чтобы не было ошибки
+//Что нужно написать вместо XXX и YYY? Ответ дайте через пробел, например:
+// car user
