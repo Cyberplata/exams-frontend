@@ -1,19 +1,18 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+type PagePropsType = {
+    age: number
+    name: string
+    avatarUrl: string
+}
+const Page: React.FC<PagePropsType> = (props) => {
+    return <User a={props.age} n={props.name} />
+}
+type UserPropsType = {
+    a: number
+    n: string
+}
+export const User: React.FC<UserPropsType> = (props) => {
+    return <div>name: {props.n}, age: {props.a}</div>
+}
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// Что нужно написать вместо xxx и yyy? 
+// Ответ дайте через пробел, например: blabla onClick(props)
