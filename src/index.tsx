@@ -1,34 +1,42 @@
 import ReactDOM from 'react-dom'
 
-export const Video = () => {
+export const VideoHeader = (props: {videoName: string}) => {
     return <div>
-        <VideoHeader />
-        <VideoContent />
-        <VideoStatistics />
+        😀 {props.videoName}
     </div>
 }
-export const VideoHeader = () => {
+export const VideoContent = (props: {videoContent: string}) => {
     return <div>
-        😀 Заголовок видео
+        📼 <a href={props.videoContent}>{props.videoContent}</a>
     </div>
 }
-export const VideoContent = () => {
+export const VideoDescription = (props: {videoDescription: string}) => {
     return <div>
-        📼 Контент видео
-    </div>
-}
-export const VideoStatistics = () => {
-    return <div>
-        📊 Статистика лайков
+        📑 {props.videoDescription}
     </div>
 }
 
-ReactDOM.render(<div><Video/></div>,
+export const YoutubeVideo = (props: any) => {
+    return <div>
+        <VideoHeader videoName={props.title} />
+        <VideoContent videoContent={props.link} />
+        <VideoDescription videoDescription={props.description} />
+    </div>
+}
+
+export const App = () => {
+    const video = {
+        title: 'Samurai way',
+        link: 'https://www.youtube.com/watch?v=gb7gMluAeao&list=PLcvhF2Wqh7DNVy1OCUpG3i5lyxyBWhGZ8',
+        description: 'Best free react-course'
+    }
+
+    return <YoutubeVideo video={video} />
+}
+
+ReactDOM.render(<App />,
     document.getElementById('root')
 );
 
-//Что нужно написать вместо ххх, чтобы на экране увидеть:
-//😀 Заголовок видео
-//📼 Контент видео
-//📊 Статистика лайков
-// ❗ Ответ дать минимально возможным объёмом кода 
+// Что нужно написать вместо xxx yyy zzz, чтобы увидеть ожидаемый результат?
+//     Ответ дайте через пробел, пример: a={12} ccc={video.id} d={'hello'}
