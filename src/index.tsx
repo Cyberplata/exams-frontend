@@ -1,26 +1,15 @@
-import ReactDOM from 'react-dom'
-
-const CrazyButton = (props: any) => {
-
-    const style = {
-        color: props.fontColor,
-        backgroundColor: props.bgColor
-    }
-
-    return <button style={style}>
-        {props.title}
-    </button>
+type PropsType = {
+    city: string        // 'minsk'
+    country: string     // 'belarus'
+    coords?: string     // '53.917501,27.604851'
 }
 
-export const App = () => {
-    return <div>
-        <CrazyButton title={'delete'} fontColor={'white'} bgColor={'red'}/>
-        <CrazyButton title={'add'} fontColor={'white'} bgColor={'green'}/>
-    </div>
+export const Wrapper1 = () => {
+    return <PropsComponent1 city='minsk' country={'belarus'}/>
 }
 
-ReactDOM.render(<App/>,
-    document.getElementById('root')
-)
+export const PropsComponent1: React.FC<PropsType> = (props) => {
+    return <div>hello</div>
+}
 
-//Что нужно написать вместо XXX YYY ZZZ? Ответ дайте через пробел
+// Что МИНИМАЛЬНО ДОСТАТОЧНО нужно дописать в строке 8 (cтрока с ошибкой), чтобы не было ошибки
