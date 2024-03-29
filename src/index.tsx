@@ -17,8 +17,8 @@ export const UserMoney = () => {
     ]
 
     return <div>
-        <UserWallet wallet={} />
-        <UserWallet wallet={yyy} />
+        <UserWallet wallet={wallets[0]} />
+        <UserWallet wallet={wallets[1]} />
     </div>
 }
 //Что нужно написать вместо xxx и yyy, чтобы компонент UserMoney отобразил информацию о двух кошельках (bitcoin и $)?
