@@ -3,17 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 function UsersList() {
-    const [users, setUsers] = useState<Array<string>>(["Bob", "Alex", "Ann"])
-    const getUser = (user: string) => <li>{user}</li>
-    const usersList = users.map(getUser)
+    const results = useState<Array<string>>(["Bob", "Alex", "Ann"])
+    const users = results[0]
+    const setUsers = results[1]
 
     return (
-        <main>
-            <h4>User list:</h4>
-            <ul>
-                {usersList}
-            </ul>
-        </main>
+        <p>Тут будет список пользователей</p>
     )
 }
 
@@ -21,5 +16,4 @@ ReactDOM.render(
     <UsersList/>, document.getElementById('root')
 );
 
-// Какую переменную необходимо указать вместо XXX, чтобы код заработал?
-
+// Какой тип правильнее указать вместо "any" при типизации стэйта?
