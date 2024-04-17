@@ -10,23 +10,25 @@ type UserType = {
 
 function User(props: UserType) {
     return (
-        <li>Student {props.name}: {props.age} y.o.</li>
+        <li>User {props.name}: {props.age} y.o.</li>
     )
 }
 
 function UsersList() {
     const data: Array<UserType> = [
-        {id: 1, name: "Bob", age: 34},
-        {id: 2, name: "Alex", age: 29},
-        {id: 3, name: "Ann", age: 25},
-        {id: 4, name: "John", age: 36},
+        {id: 1, name: "Bob", age: 25},
+        {id: 2, name: "Alex", age: 28},
+        {id: 3, name: "Ann", age: 23},
+        {id: 4, name: "John", age: 30},
     ]
     const [users, setUsers] = useState<Array<UserType>>(data)
+    // Пользователи старше 25 лет:
+    const olderThen25Users = users.filter(u => u.age > 25)
     return (
         <main>
             <h4>User list:</h4>
             <ul>
-                { users.map(u => <User key={u.id} {...u} />) }
+                { olderThen25Users.map(u => <User key={u.id} {...u}/>)}
             </ul>
         </main>
     )
