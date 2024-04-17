@@ -1,24 +1,5 @@
-import React, {useState} from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+const user = { }
+const student = { }
 
-function UsersList() {
-    const [users, setUsers] = useState<Array<string>>(["Bob", "Alex", "Ann"])
-    const getUser = (user: string) => <li>{user}</li>
-    const usersList = users.map(getUser)
-    console.log(Array.isArray(usersList))
-
-    return (
-        <main>
-            <h4>User list:</h4>
-            <ul>
-                {usersList}
-            </ul>
-        </main>
-    )
-}
-
-ReactDOM.render(
-    <UsersList/>, document.getElementById('root')
-);
-// Что вернёт выражение: Array.isArray(usersList)?
+user !==  student
+/*Каков результат выполнения этого выражения?*/
