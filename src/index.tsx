@@ -3,14 +3,17 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 function UsersList() {
-    const results = useState<Array<string>>(["Bob", "Alex", "Ann"])
-
-    const users = results[0]
-    const setUsers = results[1]
-    console.log(results.length)
+    const [users, setUsers] = useState<Array<string>>(["Bob", "Alex", "Ann"])
+    const getUser = (user: string) => <li>{user}</li>
+    const usersList = users.map(getUser)
 
     return (
-        <p>Тут будет список пользователей</p>
+        <main>
+            <h4>User list:</h4>
+            <ul>
+                {usersList}
+            </ul>
+        </main>
     )
 }
 
@@ -18,4 +21,5 @@ ReactDOM.render(
     <UsersList/>, document.getElementById('root')
 );
 
-// Чему равно results.length?
+// Какую переменную необходимо указать вместо XXX, чтобы код заработал?
+
