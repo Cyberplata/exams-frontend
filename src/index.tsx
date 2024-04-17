@@ -4,15 +4,14 @@ import './index.css';
 
 function UsersList() {
     const [users, setUsers] = useState<Array<string>>(["Bob", "Alex", "Ann"])
-    console.log(typeof useState) //function
-
+    console.log(typeof setUsers) //function
     return (
-        <p>Тут будет список пользователей!</p>
+        <p>Тут будет список пользователей</p>
     )
 }
 
 ReactDOM.render(
-    <UsersList />, document.getElementById('root')
+    <UsersList/>, document.getElementById('root')
 );
+// Что вернёт выражение: typeof setUsers?
 
-// Что вернёт выражение: typeof useState?
