@@ -4,7 +4,7 @@ import './index.css';
 
 function UsersList() {
     const [users, setUsers] = useState<Array<string>>(["Bob", "Alex", "Ann"])
-    console.log(typeof setUsers) //function
+    console.log(Array.isArray(users)) //true
     return (
         <p>Тут будет список пользователей</p>
     )
@@ -13,5 +13,6 @@ function UsersList() {
 ReactDOM.render(
     <UsersList/>, document.getElementById('root')
 );
-// Что вернёт выражение: typeof setUsers?
+// Что вернёт выражение: Array.isArray(users)?
+
 
