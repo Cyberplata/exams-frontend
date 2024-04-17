@@ -8,32 +8,39 @@ type UserType = {
     age: number
 }
 
-function User(props: UserType) {
+type UserPropsType = UserType & {
+    deleteUser: (id: number) => void
+}
+
+function User(props: UserPropsType) {
     return (
-        <li>Student {props.name}: {props.age} y.o.</li>
+        <li>
+            <button onClick={()=>props.deleteUser(props.id)}>x</button>
+            User {props.name}: {props.age} y.o.
+        </li>
     )
 }
 
 function UsersList() {
     const data: Array<UserType> = [
-        {id: 1, name: "Bob", age: 34},
-        {id: 2, name: "Alex", age: 29},
-        {id: 3, name: "Ann", age: 25},
-        {id: 4, name: "John", age: 36},
+        {id: 1, name: "Bob", age: 25},
+        {id: 2, name: "Alex", age: 28},
+        {id: 3, name: "Ann", age: 23},
+        {id: 4, name: "John", age: 30},
     ]
     const [users, setUsers] = useState<Array<UserType>>(data)
+    const deleteUser = (userID: number) => {
+        setUsers(users.filter(u => u.id !== userID))
+    }
     return (
         <main>
-            <h4>User list:</h4>
+            <h4>Users list:</h4>
             <ul>
-                {
-                    users.map(u => <User key={u.id}
-                                         id={u.id}
-                                         name={u.name}
-                                         age={u.age}
-                        />
-                    )
-                }
+                {users.map(u => <User
+                    key={u.id}
+                    {...u}
+                    deleteUser={deleteUser}
+                />)}
             </ul>
         </main>
     )
@@ -42,4 +49,5 @@ function UsersList() {
 ReactDOM.render(
     <UsersList/>, document.getElementById('root')
 );
-// Что надо написать вместо xxx, чтобы код работал оптимально?
+// В типе UserPropsType у функции deleteUser в параметрах указан тип "any".
+// Какой тип было бы указать правильнее?
