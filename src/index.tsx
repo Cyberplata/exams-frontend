@@ -20,7 +20,7 @@ function Notes() {
             />
             <div>
                 <button
-                    onClick={addNote}
+                    onClick={() => setNotes([])}
                 >Clear notes list</button>
             </div>
             <h4>Notes:</h4>
