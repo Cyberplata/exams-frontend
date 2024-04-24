@@ -1,47 +1,34 @@
-import React, {useState, MouseEvent, ChangeEvent} from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import ReactDOM from 'react-dom'
 
-function Notes() {
-    const [newNote, setNewNote] = useState<string>("")
-    const [notes, setNotes] = useState<Array<string>>([])
-    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement> )=>
-        setNewNote(e.currentTarget.value)
-    const addNote = () => {
-        setNotes([newNote, ...notes])
-        setNewNote("")
-    }
-    return (
-        <div>
-            <textarea
-                value={newNote}
-                onChange={onChangeHandler}
-                onBlur={addNote}
-            />
-            <div>
-                <button
-                    onClick={()=>setNotes([''])}
-                >Clear notes list</button>
-            </div>
-            <h4>Notes:</h4>
-            <div>
-                {notes.map(n => <p>{n}</p>)}
-            </div>
-        </div>
-    )
+const Son = (props: any) => {
+    return <div>
+        I am son. My name is {props.name}
+    </div>
 }
 
-ReactDOM.render(
-    <Notes/>, document.getElementById('root')
-);
-// Что надо написать вместо ххх,
-// чтобы при клике список заметок очищался?
 
+const Father = (props: any) => {
+    return <div>
+        I am father. My name is {props.name}
+        <Son name={props.sonName} />
+    </div>
+}
 
+const Granny = (props: any) => {
+    return <div>
+        I am granny. My name is {props.name}
+        <Father name={props.fatherName} sonName={props.sonName} />
+    </div>
+}
 
+export const App = () => {
+    return <div>
+        <Granny Granny={'Бабуля'} Father={'Батя'} Son={'Сын'}/>
+    </div>
+}
 
+ReactDOM.render(<App/>,
+    document.getElementById('root')
+)
 
-
-
-
-
+//Что нужно написать вместо XXX YYY ZZZ? Ответ дайте через пробел?
