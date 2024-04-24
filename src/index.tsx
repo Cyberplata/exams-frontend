@@ -1,53 +1,34 @@
-import React, {useState} from 'react';
+import React, {useState, MouseEvent, ChangeEvent} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-type UserType = {
-    id: number
-    name: string
-    age: number
-}
-
-type UserPropsType = UserType & {
-    deleteUser: (id: number) => void
-}
-
-function User(props: UserPropsType) {
-    return (
-        <li>
-            <button onClick={()=>props.deleteUser(props.id)}>x</button>
-            User {props.name}: {props.age} y.o.
-        </li>
-    )
-}
-
-function UsersList() {
-    const data: Array<UserType> = [
-        {id: 1, name: "Bob", age: 25},
-        {id: 2, name: "Alex", age: 28},
-        {id: 3, name: "Ann", age: 23},
-        {id: 4, name: "John", age: 30},
-    ]
-    const [users, setUsers] = useState<Array<UserType>>(data)
-    const deleteUser = (userID: number) => {
-        setUsers(users.filter(u => u.id !== userID))
+function Notes() {
+    const [newNote, setNewNote] = useState<string>("")
+    const [notes, setNotes] = useState<Array<string>>([])
+    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement> )=>
+        setNewNote(e.currentTarget.value)
+    const addNote = () => {
+        setNotes([newNote, ...notes])
+        setNewNote("")
     }
     return (
-        <main>
-            <h4>Users list:</h4>
-            <ul>
-                {users.map(u => <User
-                    key={u.id}
-                    {...u}
-                    deleteUser={deleteUser}
-                />)}
-            </ul>
-        </main>
+        <div>
+            <textarea
+                value={newNote}
+                onChange={onChangeHandler}
+                onBlur = {addNote}
+            />
+            <h4>Notes:</h4>
+            <div>
+                {notes.map((n,i )=> <p key={i}>{n}</p>)}
+            </div>
+        </div>
     )
 }
 
+
 ReactDOM.render(
-    <UsersList/>, document.getElementById('root')
+    <Notes/>, document.getElementById('root')
 );
-// В типе UserPropsType у функции deleteUser в параметрах указан тип "any".
-// Какой тип было бы указать правильнее?
+// Что надо написать вместо ххх,
+// чтобы при потере инпутом фокуса добавлялась заметка?
