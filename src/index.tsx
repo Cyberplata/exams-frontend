@@ -1,29 +1,19 @@
-import React, {useState, MouseEvent, ChangeEvent} from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-
-function User() {
-    const [userName, setUserName] = useState<string>("")
-    const [text, setText] = useState<string>("")
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement> )=> setUserName(e.currentTarget.value)
-    return (
-        <div>
-            <input
-                value={userName}
-                onChange={onChangeHandler}
-                onBlur={()=> {
-                    // xxx
-                    setUserName("")
-                    setText(userName)
-                }}
-            />
-            <p>{text}</p>
-        </div>
-    )
+const climate = {
+    name: "Bob"
 }
 
-ReactDOM.render(
-    <User/>, document.getElementById('root')
-);
-// Что надо написать вместо ххх,
-// чтобы после вывода текста в параграф содержимое формы ввода очищалось?
+const cabinet = climate
+
+const clothes = {}
+
+const access = {
+    name: "Bob"
+}
+
+if (climate === cabinet) {
+    console.log("Yo!!!")
+} else {
+    console.log("Hey!!!")
+}
+
+/*Какие переменные можно использовать вместо XXX, что бы в консоль вывелась строка "Hey"!!!"? Если их несколько, напишите через пробел.*/
