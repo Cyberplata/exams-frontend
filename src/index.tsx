@@ -1,22 +1,32 @@
-import React, {useState, MouseEvent, ChangeEvent} from 'react';
+import React, {useState, MouseEvent} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-function User() {
-    const [userName, setUserName] = useState<string>("")
+function Post() {
+    const onClickHandler = (e: MouseEvent<HTMLAnchorElement>) => {
+        // xxx
+        e.preventDefault()
+        alert("Летим-бомбим!!!")
+    }
     return (
         <div>
-            <p>{userName}</p>
-            <input
-                // xxx
-                value={userName}
-                onChange={(e) => setUserName(e.currentTarget.value)}
-            />
+            <article>
+                <h4>Как дела, братан?</h4>
+                <p>
+                    Вижу, что неплохо. Давай, трудись )))
+                    Google ждёт тебя в цифровом рабстве!
+                    Cтавь лайк и полетели!!!
+                </p>
+                <a href={"https://www.youtube.com/"}
+                   onClick={onClickHandler}
+                >В этом месте подробнее...</a>
+            </article>
         </div>
     )
 }
 
 ReactDOM.render(
-    <User/>, document.getElementById('root')
+    <Post/>, document.getElementById('root')
 );
-// Что надо написать вместо ххх, чтобы инпут был контролируемым?
+// Что надо написать вместо ххх, чтобы Вас не направило на страницу Youtube
+// при клике по ссылке?
