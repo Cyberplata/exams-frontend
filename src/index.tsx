@@ -1,17 +1,17 @@
-import React, {MouseEvent} from 'react';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-function Button() {
-    const onClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
-        console.log((typeof e) === 'object')
-    }
-    return <button onClick={onClickHandler} >Click</button>
+function UsersList() {
+    const [users, setUsers] = useState<Array<string>>(["Bob", "Alex", "Ann"])
+    console.log(typeof setUsers) // function
+    return (
+        <p>Тут будет список пользователей</p>
+    )
 }
 
-
 ReactDOM.render(
-    <Button/>, document.getElementById('root')
+    <UsersList/>, document.getElementById('root')
 );
+// Что вернёт выражение: typeof setUsers?
 
-// Что надо написать вместо ххх, чтобы в консоль вывело true?
