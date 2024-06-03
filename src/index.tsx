@@ -1,15 +1,11 @@
-const customer = {
-    name: "William",
-    age: 44,
-    friends: ["Igor", "Anastasiya", "Egor"]
+const user = {
+    name: "Anastasiya",
+    age: 88
 }
 
-const updatedCustomer = {...customer}
+const copyUser = {...user}
 
-updatedCustomer.friends.push("Egor")
+user.name = "Igor"
 
-console.log(customer.friends[3])
-
-/*Какое значение будет выведено в консоль?*/
-
-
+/*Чему равно copyUser.name после выполнения этого кода?*/
+console.log(copyUser.name) // "Anastasiya"
