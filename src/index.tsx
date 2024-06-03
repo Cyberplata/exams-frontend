@@ -1,11 +1,22 @@
-const user = {
-    name: "Anastasiya",
-    age: 88
+import React, {useState, MouseEvent} from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+
+function ColorButton() {
+    const [isColored, setIsColored] = useState<boolean>(false)
+    return (
+        <button
+            style={{ backgroundColor: `${ isColored === true ? "red": ""}`}}
+            onClick={()=>setIsColored(true)}
+        >
+            Меняю цвет по клику
+        </button>
+    )
 }
 
-const copyUser = {...user}
 
-user.name = "Igor"
+ReactDOM.render(
+    <ColorButton/>, document.getElementById('root')
+);
 
-/*Чему равно copyUser.name после выполнения этого кода?*/
-console.log(copyUser.name) // "Anastasiya"
+// Что надо написать вместо XXX, чтобы при клике кнопка становилась красной?
