@@ -28,7 +28,7 @@ function LongCommentChecker() {
             />
             <div>
                 <button
-                    disabled={isCommentReady}
+                    disabled={!isCommentReady}
                     onClick={onClickSendComment}>
                     Send comment
                 </button>
