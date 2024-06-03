@@ -1,39 +1,48 @@
-import React, {ChangeEvent, useState} from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import React, { ChangeEvent, useState } from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
 
-function Colorize() {
+const MIN_COMMENT_SIZE = 5
 
-    const [color, setColor] = useState<string>("black")
-    const colors = ["red", "yellow", "green", "blue", "violet", "chartreuse"]
+function LongCommentChecker() {
+    const [comment, setComment] = useState<string>('')
+    const isCommentReady = comment.length > MIN_COMMENT_SIZE
 
-    const styles = {
-        width: "100px",
-        height: "100px",
-        borderRadius: "50%",
-        backgroundColor: "black"
+    const onClickSendComment = () => {
+        if (isCommentReady) {
+            setComment('')
+        }
     }
+    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        const newComment = e.currentTarget.value
 
-    const getColor = (colors: string[]) => {
-        const nextColor = colors[Math.floor(Math.random() * colors.length)]
-        return nextColor
+        setComment(newComment)
     }
 
     return (
         <main>
-            <div style={{...styles, backgroundColor: color}}/>
+            <textarea
+                placeholder={'Your comment must have more than 5 charters'}
+                value={comment}
+                onChange={onChangeHandler}
+            />
             <div>
                 <button
-                    onClick={() => setColor(getColor(colors))}
-                >
-                    Get random color
+                    disabled={isCommentReady}
+                    onClick={onClickSendComment}>
+                    Send comment
                 </button>
             </div>
         </main>
     )
 }
 
-ReactDOM.render(
-    <Colorize/>, document.getElementById('root')
-);
-// Что надо вставить вместо XXX, чтобы круг менял цвет по клику?
+ReactDOM.render(<LongCommentChecker/>, document.getElementById('root'))
+
+/*
+Вопрос:
+
+Что нужно написать вместо XXX, чтобы кнопка отправки комментария отрабатывала верно:
+первоначально кнопка должна быть в состоянии disable, а после успешного выполнения условия (комментарий должен быть больше 5 символов) должна раздизаблиться.
+❗ Ответ необходимо дать на основании данных (переменных), которые уже есть в коде
+*/
