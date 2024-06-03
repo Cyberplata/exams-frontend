@@ -1,25 +1,15 @@
-import React, {useState} from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-
-function PasswordChecker() {
-    const [password, setPassword] = useState<string>("")
-    return (
-        <main>
-            <p>Your password must have more than 8 charters!</p>
-            <input
-                placeholder={"Enter your password"}
-                value={password}
-                onChange={e => setPassword(e.currentTarget.value)}
-                type={"password"}
-            />
-            {password.length < 9 && <p style={{color: "red"}}>The password is too short!</p>}
-        </main>
-    )
+const customer = {
+    name: "William",
+    age: 44,
+    friends: ["Igor", "Anastasiya", "Egor"]
 }
 
-ReactDOM.render(
-    <PasswordChecker/>, document.getElementById('root')
-);
+const updatedCustomer = {...customer}
 
-// Что надо вставить вместо XXX, чтобы код работал нормально?
+updatedCustomer.friends.push("Egor")
+
+console.log(customer.friends[3])
+
+/*Какое значение будет выведено в консоль?*/
+
+
