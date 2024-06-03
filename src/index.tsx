@@ -1,22 +1,27 @@
-import React, {useState, MouseEvent} from 'react';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-function ColorButton() {
-    const [isColored, setIsColored] = useState<boolean>(false)
+function UsersList() {
+    const [users, setUsers] = useState<Array<string>>(["Bob", "Alex", "Ann"])
+    const getUser = (user: string, i: number) => <li key={i}>{user}</li>
+
+    const usersList = (users.length === 0)
+        ? <p>List is empty</p>
+        :  <ul>
+            { users.map(getUser)}
+        </ul>
+
     return (
-        <button
-            style={{ backgroundColor: `${ isColored === true ? "red": ""}`}}
-            onClick={()=>setIsColored(true)}
-        >
-            Меняю цвет по клику
-        </button>
+        <main>
+            <button onClick={()=>setUsers([])}>Clear list</button>
+            <h4>User list:</h4>
+            {usersList}
+        </main>
     )
 }
 
-
 ReactDOM.render(
-    <ColorButton/>, document.getElementById('root')
+    <UsersList/>, document.getElementById('root')
 );
-
-// Что надо написать вместо XXX, чтобы при клике кнопка становилась красной?
+// Что надо вставить вместо XXX, чтобы код корректно работал со списком пользователей?
