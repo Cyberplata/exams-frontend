@@ -1,27 +1,39 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-function UsersList() {
-    const [users, setUsers] = useState<Array<string>>(["Bob", "Alex", "Ann"])
-    const getUser = (user: string, i: number) => <li key={i}>{user}</li>
+function Colorize() {
 
-    const usersList = (users.length === 0)
-        ? <p>List is empty</p>
-        :  <ul>
-            { users.map(getUser)}
-        </ul>
+    const [color, setColor] = useState<string>("black")
+    const colors = ["red", "yellow", "green", "blue", "violet", "chartreuse"]
+
+    const styles = {
+        width: "100px",
+        height: "100px",
+        borderRadius: "50%",
+        backgroundColor: "black"
+    }
+
+    const getColor = (colors: string[]) => {
+        const nextColor = colors[Math.floor(Math.random() * colors.length)]
+        return nextColor
+    }
 
     return (
         <main>
-            <button onClick={()=>setUsers([])}>Clear list</button>
-            <h4>User list:</h4>
-            {usersList}
+            <div style={{...styles, backgroundColor: color}}/>
+            <div>
+                <button
+                    onClick={() => setColor(getColor(colors))}
+                >
+                    Get random color
+                </button>
+            </div>
         </main>
     )
 }
 
 ReactDOM.render(
-    <UsersList/>, document.getElementById('root')
+    <Colorize/>, document.getElementById('root')
 );
-// Что надо вставить вместо XXX, чтобы код корректно работал со списком пользователей?
+// Что надо вставить вместо XXX, чтобы круг менял цвет по клику?
