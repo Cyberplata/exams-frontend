@@ -1,30 +1,14 @@
-type StudentType = {
-    id: number
-    name: string
+const customer = {
+    name: "Sergey",
+    age: 53,
+    friends: ["Vanya", "Natali", "Liza"]
 }
 
-type FriendsType = {
-    [key: string]: Array<String>
-}
+const newFriend = "Vladimir"
 
-export const students: Array<StudentType> = [
-    {id: 1, name: "Bob"},
-    {id: 2, name: "Alex"},
-    {id: 3, name: "Ann"},
-    {id: 4, name: "Charley"},
-]
+const friends = [...customer.friends, newFriend] // ...customer.friends - XXX
 
-export const friends: FriendsType = {
-    1: ["Oliver", "Jack", "Oscar",],
-    2: ["Jack", "Lewis", "Thomas",],
-    3: ["William", "Michael", "Lewis",],
-    4: ["Oscar", "James", "William",],
-}
-console.log(students[0].id) // 1
-console.log(friends[students[0].id][3]) // undefined
-//Дан список студентов и структура,
-//которая содержит список друзей каждого из студентов.
-//Id студента является ключом к массиву его друзей.
-//Какое значение лежит тут: friends[students[0].id][3]?
+const updatedCustomer = {...customer, friends: friends}
 
-
+/*Выполнено преобразование объекта: добавлен новый друг в список.
+Что надо указать вместо XXX, что бы выполнить это действие иммутабельно?*/
