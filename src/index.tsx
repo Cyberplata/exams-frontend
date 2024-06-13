@@ -1,20 +1,10 @@
-const student = {
-    name: "Artem"
-}
+const members = ["Masha", "Maxim", "Mia"]
+const boss = [... members]
+const city = boss
 
-const newStudent = student
+const result = city !== members
+    ? "Yo!!!"
+    : "Hey!!!"
 
-const myFriend = {
-    ...newStudent
-}
-
-const newUser = {
-    name: "Masha"
-}
-
-const myFriendName =  student.name !== myFriend.name
-    ? newUser.name
-    : student.name
-
-console.log(myFriendName) //"Artem"
-/*Какое значение получит переменная "myFriendName"?*/
+console.log(result) //members
+/*Имя какой переменной надо указать вместо XXX, что бы переменная result получила значение "Yo!!!"? Если такой переменной нет, в качестве ответа укажите null.*/
