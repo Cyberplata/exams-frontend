@@ -1,14 +1,28 @@
-const customer = {
-    name: "Maria",
-    age: 78,
-    friends: ["Rita", "Natali", "Konstantin"]
+type StudentType = {
+    id: number
+    name: string
 }
 
-const updatedCustomer = {
-    ...customer,
-    friends: customer.friends
+type FriendsType = {
+    [key: string]: Array<string>
 }
 
-console.log(customer.friends === updatedCustomer.friends) //true
+export const students: Array<StudentType> = [
+    {id: 1, name: "Bob"},
+    {id: 2, name: "Alex"},
+    {id: 3, name: "Ann"},
+    {id: 4, name: "Charley"},
+]
 
-/*Какое значение будет выведено в консоль?*/
+export const friends: FriendsType = {
+    1: ["Oliver", "Jack", "Oscar",],
+    2: ["Jack", "Lewis", "Thomas",],
+    3: ["William", "Michael", "Lewis",],
+    4: ["Oscar", "James", "William",],
+}
+console.log(students[1].id) // 2
+console.log(friends[students[1].id][2]) // "Thomas"
+//Дан список студентов и структура,
+//которая содержит список друзей каждого из студентов.
+//Id студента является ключом к массиву его друзей.
+//Какое значение лежит тут: friends[students[1].id][2]?
