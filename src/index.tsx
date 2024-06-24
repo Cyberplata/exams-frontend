@@ -1,12 +1,10 @@
-const member = {
-    name: "Ivan",
-    age: 16,
-    scores: [81.30, 79.23, 63.94]
+const userName = (user = "") => {
+    let userName: any = "Daniil"
+    userName += user
+    return user;
+    // console.log(user)
 }
 
-const {name, age, scores} = member
-
-console.log(member.scores === scores && age) // 16
-
-
-/*Какое значение мы увидим в консоли?*/
+const student = userName() || "Lev"
+console.log(student) // "Lev"
+/*Какое значение получит переменная student? */
