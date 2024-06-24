@@ -1,13 +1,12 @@
-const names = ["Leonid", "Ivan", "Sergey"]
+const member = {
+    name: "Ivan",
+    age: 16,
+    scores: [81.30, 79.23, 63.94]
+}
 
-const nameNext = names
-// console.log(names[0])
-nameNext.length = 0
+const {name, age, scores} = member
 
-const result = names[0] ? 77 : 62
-console.log(result) // 62
-
-/* Какое значение получит переменная result? */
-
+console.log(member.scores === scores && age) // 16
 
 
+/*Какое значение мы увидим в консоли?*/
