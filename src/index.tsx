@@ -1,9 +1,13 @@
-const getArray = (a, b, c) => {
-    return [c, b, a]
+
+const customer = {
+    name: "Igor",
+    age: 61,
+    friends: ["Artem", "Sergey", "Andrey", "Egor"]
 }
 
-const [category, climate, aspect]  = getArray(97, 45, 16)
+const [bonus, classroom, business] = customer.friends
 
-console.log(category) //16
+const result = classroom
+console.log(result) // "Sergey"
+/*Какое значение получит переменная result?*/
 
-/*Какое число будет выведено в консоль?*/
