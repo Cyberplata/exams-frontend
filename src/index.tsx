@@ -1,14 +1,9 @@
-const customer = {
-    name: "Sergey",
-    age: 53,
-    friends: ["Vanya", "Natali", "Liza"]
+const getArray = (a, b, c) => {
+    return [c, b, a]
 }
 
-const newFriend = "Vladimir"
+const [category, climate, aspect]  = getArray(97, 45, 16)
 
-const friends = [...customer.friends, newFriend] // ...customer.friends - XXX
+console.log(category) //16
 
-const updatedCustomer = {...customer, friends: friends}
-
-/*Выполнено преобразование объекта: добавлен новый друг в список.
-Что надо указать вместо XXX, что бы выполнить это действие иммутабельно?*/
+/*Какое число будет выведено в консоль?*/
