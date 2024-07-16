@@ -1,14 +1,22 @@
-const anxiety = {
-    name: "Yana",
-    scores: 1
+
+type ActionType = {
+    type: "SUM"|"SUB"|"MULT"|"DIV"|"EXP"
+    payload: number
 }
 
-const cousin = {
-    ... anxiety,  scores:  anxiety.scores++
+export const calculator = (state: number, action: ActionType): number => {
+    switch (action.type) {
+        case "SUM":
+            return state + action.payload
+        case "SUB":
+            return state - action.payload
+        case "DIV":
+            return state / action.payload
+        case "EXP":
+            return state ** action.payload
+        default:
+            return state
+    }
 }
 
-
-const scores  = cousin.scores
-
-// Какое значение получит переменная scores? // 1
-
+//Что вернёт такой вызов функции: calculator(10, {type: "MULT", payload: 2})? // 10
