@@ -1,20 +1,13 @@
+let result = 0
 
-type ActionType = {
-    type: "SUM"|"SUB"|"MULT"|"DIV"
-    payload: number
-}
-
-export const calculator = (state: number, action: ActionType): number => {
-    switch (action.type) {
-        case "SUM":
-            return state + action.payload
-        case "SUB":
-            return state - action.payload
-        case "DIV":
-            return state / action.payload
-        default:
-            return state
+for(let i = 0; i < 5; i++){
+    if(i % 2){
+        result += i
     }
 }
 
-//Обработка какого action.type не предусмотрена в функции calculator? //"MULT"
+const studentName = (result - 4)
+    ? "Maxim"
+    : "Victor"
+
+// /* Какое значение получит переменная studentName? */ 'Victor'
