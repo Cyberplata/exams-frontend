@@ -1,8 +1,14 @@
-const {ability} = {ability: 36}
+const anxiety = {
+    name: "Yana",
+    scores: 1
+}
 
-const multiply = ability * 99.62
+const cousin = {
+    ... anxiety,  scores:  anxiety.scores++
+}
 
-const randomValue = multiply && "Elizaveta" &&  "Michail"
 
-/* Какое значение получит переменная randomValue ? */ //"Michail"
+const scores  = cousin.scores
+
+// Какое значение получит переменная scores? // 1
 
