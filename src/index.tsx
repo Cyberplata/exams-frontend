@@ -1,28 +1,8 @@
+const {ability} = {ability: 36}
 
-type ActionType = {
-    type: "SUM"|"SUB"|"MULT"|"DIV"|"EXP"
-    payload: number
-}
+const multiply = ability * 99.62
 
-export const calculator = (state: number, action: ActionType): number => {
-    switch (action.type) {
-        case "SUM":
-            return state + action.payload
-        case "SUB":
-            return state - action.payload
-        case "DIV":
-            return state / action.payload
-        case "MULT":
-            return state * action.payload
-        case "EXP":
-            return state ** action.payload
-        default:
-            return state
-    }
-}
-const result = calculator(10, {type: "EXP", payload: 0})
-if (!(result - 1)){
-    console.log("IT-INCUBATOR")
-}
+const randomValue = multiply && "Elizaveta" &&  "Michail"
 
-//Что надо написать вместо XXX чтобы в консоли появилась строка "IT-INCUBATOR"? //type: "EXP"
+/* Какое значение получит переменная randomValue ? */ //"Michail"
+
