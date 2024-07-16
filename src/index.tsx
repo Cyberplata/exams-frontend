@@ -1,20 +1,20 @@
-const client = {
-    name: "Egor",
-    age: 98,
-    scores: [72.17, 18.29, 71.90]
+
+type ActionType = {
+    type: "SUM"|"SUB"|"MULT"|"DIV"
+    payload: number
 }
 
-const [first, second, third = 35.45] = client.scores
-
-switch(third){
-    case 35.45:
-        console.log("Nauru")
-        break;
-    case 18.29:
-        console.log("Norway")
-        break;
-    default:
-        console.log("Barbuda"); // "Barbuda"
+export const calculator = (state: number, action: ActionType): number => {
+    switch (action.type) {
+        case "SUM":
+            return state + action.payload
+        case "SUB":
+            return state - action.payload
+        case "DIV":
+            return state / action.payload
+        default:
+            return state
+    }
 }
-/*Какую строку мы увидим в консоли?*/
 
+//Обработка какого action.type не предусмотрена в функции calculator? //"MULT"
