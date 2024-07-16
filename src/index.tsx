@@ -1,13 +1,20 @@
-let result = 0
 
-for(let i = 0; i < 5; i++){
-    if(i % 2){
-        result += i
+type ActionType = {
+    type: "SUM"|"SUB"|"MULT"|"DIV"
+    payload: number
+}
+
+export const calculator = (state: number, action: ActionType) => {
+    switch (action.type) {
+        case "SUM":
+            return state + action.payload
+        case "SUB":
+            return state - action.payload
+        case "DIV":
+            return state / action.payload
+        default:
+            return state
     }
 }
 
-const studentName = (result - 4)
-    ? "Maxim"
-    : "Victor"
-
-// /* Какое значение получит переменная studentName? */ 'Victor'
+//Что надо написать вместо ХХХ, чтобы функция calculator работала? // action.type
