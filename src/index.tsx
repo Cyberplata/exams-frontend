@@ -1,25 +1,28 @@
-
-type ActionType = {
-    type: "SUM"|"SUB"|"MULT"|"DIV"
-    payload: number
+type StudentType = {
+    id: number
+    name: string
 }
 
-export const calculator = (state: number, action: ActionType): number => {
-    switch (action.type) {
-        case "SUM":
-            return state + action.payload
-        case "SUB":
-            return state - action.payload
-        case "DIV":
-            return state / action.payload
-        case "MULT":
-            return state * action.payload
-        default:
-            return state
-    }
+type FriendsType = {
+    [key: string]: Array<string>
 }
 
-const result = calculator(10, {type: "SUB", payload: 5})
-console.log(result)
-//Что надо написать вместо XXX, что бы переменная result содержала значение 5?
-// type: "SUB"
+export const students: Array<StudentType> = [
+    {id: 1, name: "Bob"},
+    {id: 2, name: "Alex"},
+    {id: 3, name: "Ann"},
+    {id: 4, name: "Charley"},
+]
+
+export const friends: FriendsType = {
+    1: ["Oliver", "Jack", "Oscar",],
+    2: ["Jack", "Lewis", "Thomas",],
+    3: ["William", "Michael", "Lewis",],
+    4: ["Oscar", "James", "William",],
+}
+
+//Дан список студентов и структура,
+//которая содержит список друзей каждого из студентов.
+//Id студента является ключом к массиву его друзей.
+//Какое значение лежит тут:  friends[3][1]?
+//"Michael"
