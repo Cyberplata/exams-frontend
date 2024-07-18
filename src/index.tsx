@@ -1,6 +1,6 @@
 
 type ActionType = {
-    type: "SUM"|"SUB"|"MULT"|"DIV"|"EXP"
+    type: "SUM"|"SUB"|"MULT"|"DIV"
     payload: number
 }
 
@@ -14,16 +14,12 @@ export const calculator = (state: number, action: ActionType): number => {
             return state / action.payload
         case "MULT":
             return state * action.payload
-        case "EXP":
-            return state ** action.payload
         default:
             return state
     }
 }
-const result = calculator(10, {type: "EXP", payload: 0})
-if (!(result - 1)){
-    console.log("IT-INCUBATOR")
-}
 
-//Что надо написать вместо XXX чтобы в консоли появилась строка "IT-INCUBATOR"?
-// type: "EXP"
+const result = calculator(10, {type: "SUB", payload: 5})
+console.log(result)
+//Что надо написать вместо XXX, что бы переменная result содержала значение 5?
+// type: "SUB"
