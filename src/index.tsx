@@ -1,31 +1,23 @@
-type UserType = {
-    id: number
-    userName: string
-    email: string
-    password: string
+import React, {useState, MouseEvent} from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+
+function ColorButton() {
+    const [isColored, setIsColored] = useState<boolean>(false)
+    return (
+        <button
+            style={{ backgroundColor: `${ isColored === true ? "red": ""}`}}
+            onClick={()=>setIsColored(true)}
+        >
+            Меняю цвет по клику
+        </button>
+    )
 }
 
-type ChangeUserPasswordTypeAT = {
-    type: "CHANGE-USER-PASSWORD"
-    payload: {
-        id: number
-        newPassword: string
-    }
-}
 
-export const userReducer =
-    (state: UserType[], action: ChangeUserPasswordTypeAT): UserType[] => {
-        switch (action.type) {
-            case "CHANGE-USER-PASSWORD":
-                return state.map(u =>
-                    u.id === action.payload.id
-                        ? {...u, password: action.payload.newPassword}
-                        : u)
-            default:
-                return state
-        }
-    }
+ReactDOM.render(
+    <ColorButton/>, document.getElementById('root')
+);
 
-//Какой код должен быть написан вместо XXX и YYY в типе //ChangeUserPasswordTypeAT, что бы редьюсер работал?
-//В ответе напишите через пробел: XXX  YYY
-// id: number newPassword: string
+// Что надо написать вместо XXX, чтобы при клике кнопка становилась красной?
+// isColored
