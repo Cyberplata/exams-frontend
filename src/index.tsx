@@ -1,28 +1,29 @@
-import React, {useState} from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
 
-function UsersList() {
-    const [users, setUsers] = useState<Array<string>>(["Bob", "Alex", "Ann"])
-    const getUser = (user: string, i: number) => <li key={i}>{user}</li>
-
-    const usersList = (users.length === 0)
-        ? <p>List is empty</p>
-        :  <ul>
-            { users.map(getUser)}
-        </ul>
-
-    return (
-        <main>
-            <button onClick={()=>setUsers([])}>Clear list</button>
-            <h4>User list:</h4>
-            {usersList}
-        </main>
-    )
+type ActionType = {
+    type: "SUM"|"SUB"|"MULT"|"DIV"|"EXP"
+    payload: number
 }
 
-ReactDOM.render(
-    <UsersList/>, document.getElementById('root')
-);
-// Что надо вставить вместо XXX, чтобы код корректно работал  со списком пользователей?
-//users.length
+export const calculator = (state: number, action: ActionType): number => {
+    switch (action.type) {
+        case "SUM":
+            return state + action.payload
+        case "SUB":
+            return state - action.payload
+        case "DIV":
+            return state / action.payload
+        case "MULT":
+            return state * action.payload
+        case "EXP":
+            return state ** action.payload
+        default:
+            return state
+    }
+}
+const result = calculator(10, {type: "EXP", payload: 0})
+if (!(result - 1)){
+    console.log("IT-INCUBATOR")
+}
+
+//Что надо написать вместо XXX чтобы в консоли появилась строка "IT-INCUBATOR"?
+// type: "EXP"
