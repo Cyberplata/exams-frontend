@@ -1,23 +1,26 @@
-import React, {useState, MouseEvent} from 'react';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-function ColorButton() {
-    const [isColored, setIsColored] = useState<boolean>(false)
+function PasswordChecker() {
+    const [password, setPassword] = useState<string>("")
     return (
-        <button
-            style={{ backgroundColor: `${ isColored === true ? "red": ""}`}}
-            onClick={()=>setIsColored(true)}
-        >
-            Меняю цвет по клику
-        </button>
+        <main>
+            <p>Your password must have more than 8 charters!</p>
+            <input
+                placeholder={"Enter your password"}
+                value={password}
+                onChange={e => setPassword(e.currentTarget.value)}
+                type={"password"}
+            />
+            {password.length < 9 && <p style={{color: "red"}}>The password is too short!</p>}
+        </main>
     )
 }
 
-
 ReactDOM.render(
-    <ColorButton/>, document.getElementById('root')
+    <PasswordChecker/>, document.getElementById('root')
 );
 
-// Что надо написать вместо XXX, чтобы при клике кнопка становилась красной?
-// isColored
+// Что надо вставить вместо XXX, чтобы код работал нормально?
+// password.length
