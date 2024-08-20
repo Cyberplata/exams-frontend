@@ -1,42 +1,23 @@
-import React, {useState} from "react";
-
-type UserType = {
-    id: number
-    name: string
-    status: "online" | "offline"
-}
-
-type AddressType = {
-    country: string
-    city: string
-    email: string
-}
-
-type AdressesType = {
-    [userID: string]: AddressType
-}
-
-const users: Array<UserType> = [
-    {id: 1, name: "Bob", status: "online"},
-    {id: 2, name: "Alex", status: "offline"},
-    {id: 3, name: "Ann", status: "offline"},
-]
-
-const addresses: AdressesType = {
-    1: {country: "Russia", city: "Moscow", email: "hey@email.com"},
-    2: {country: "Ukraine", city: "Kiev", email: "yo@send.ua"},
-    3: {country: "Belarus", city: "Minsk", email: "wow@gogo.ru"},
-
-}
-
-const updateUserAddress = (userID: number, key: string, newValue: string) => {
-    return {...addresses,
-        [userID]: {...addresses[userID], [key]: newValue}
+export const reducer = (state: any, action: any) => {
+    switch (action.type) {
+        case 'TRACK-DELETED':
+            return state.filter((track: any) => track.id !== action.trackId)
+        default:
+            return state
     }
 }
-// Дан список пользователей и структура, хранящая адреса пользователей.
-// Так же дана функция updateUserAddress,
-// которая обновляет указанное в параметрах поле в адресе пользователя.
-// Пример использования функции: updateUserAddress(2, "city", "Dnepropetrovsk")
-// Что надо написать вместо ххх, чтобы функция работала корректно?
-// userID
+
+const deleteTrackAC = (trackId: number) => ({type: 'TRACK-DELETED', trackId})
+
+
+const state = [
+    {id: 12, likesCount: 10},
+    {id: 14, likesCount: 2},
+    {id: 100, likesCount: 0}
+]
+const newState = reducer(state, deleteTrackAC(14))
+
+console.log(newState.length === 2)
+
+
+// Что нужно написать вместо XXX, чтобы корректно удалить трек и в консоли увидеть true? // track.id !== action.trackId
