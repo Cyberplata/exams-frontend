@@ -1,22 +1,26 @@
-export const reducer = (state: any, action: any) => {
+type Status = 'Stopped' | 'Playing' | 'Paused'
+type StateType = {
+    volume: number // in percents
+    trackUrl: string // 'https://blabla.com/track01.mp3',
+    currentPlayPosition: number // milliseconds,
+    status: Status
+}
+
+export const playerReducer = (state: StateType, action: any) => {
     switch (action.type) {
-        case 'TRACK-ADDED':
-            return [...state, {id: action.trackId, likesCount: 0}]
+        case 'TRACK-URL-CHANGED':
+            return {
+                ...state,
+                trackUrl: action.url
+            }
         default:
             return state
     }
 }
 
-const addTrackAC = (trackId: number) => ({type: 'TRACK-ADDED', trackId})
+const muteTrackAC = () => ({type: 'TRACK-MUTED'})
+const changeTrackAC = (url: string) => ({type: 'TRACK-URL-CHANGED', url})
+const changeTrackPlayStatusAC = (status: Status) => ({type: 'TRACK-STATUS-CHANGED', status})
 
-
-const state = [
-    {id: 12, likesCount: 10},
-    {id: 14, likesCount: 2},
-    {id: 100, likesCount: 0}
-]
-const newState = reducer(state, addTrackAC(300))
-
-console.log(newState[3].likesCount === 0)
-
-// Что нужно написать вместо XXX, чтобы трек корректно добавился и в консоли увидеть true? // [...state, {id: action.trackId, likesCount: 0}]
+//Какой тип должен быть вместо XXX? // 'TRACK-URL-CHANGED'
+ 
