@@ -1,34 +1,29 @@
-type Status = 'Stopped' | 'Playing' | 'Paused'
-type StateType = {
-    volume: number // in percents
-    trackUrl: string // 'https://blabla.com/track01.mp3',
-    currentPlayPosition: number // milliseconds,
-    status: Status
-}
-export const playerReducer = (state: StateType, action: any) => {
+export const reducer = (state: any, action: any) => {
     switch (action.type) {
-        case 'TRACK-STATUS-CHANGED':
+        case 'TRACK-LIKED':
             return {
                 ...state,
-                status: action.status
+                [action.trackId]: {
+                    ...state[action.trackId],
+                    likesCount: state[action.trackId].likesCount + 1
+                }
             }
         default:
             return state
     }
 }
 
-const muteTrackAC = () => ({type: 'TRACK-MUTED'})
-const changeTrackAC = (url: string) => ({type: 'TRACK-URL-CHANGED', url})
-const changeTrackPlayStatusAC = (status: Status) => ({type: 'TRACK-STATUS-CHANGED', status})
+const likeTrackAC = (trackId: number) => ({type: 'TRACK-LIKED', trackId})
 
-const state: StateType = {
-    status: 'Stopped',
-    currentPlayPosition: 1213,
-    trackUrl: 'https://blabla.com/track01.mp3',
-    volume: 100
+
+const state = {
+    12: {id: 12, likesCount: 10},
+    14: {id: 14, likesCount: 2},
+    100: {id: 100, likesCount: 0},
 }
+const newState = reducer(state, likeTrackAC(14))
 
-const newState = playerReducer(state, changeTrackPlayStatusAC('Paused'))
-console.log(newState.status === 'Paused')
+console.log(newState[14].likesCount === 3)
 
-//Напишите вместо XXX правильный вызов правильного AC, чтобы в консоли было true // changeTrackPlayStatusAC('Paused')
+// Что нужно написать вместо XXX, чтобы в консоли увидеть true?  // action.trackId
+// ❗ Захардкодженные значения использовать запрещено
