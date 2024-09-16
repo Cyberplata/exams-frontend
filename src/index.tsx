@@ -1,15 +1,19 @@
-let number = 3
+import {combineReducers, createStore} from 'redux'
 
-if (number > 0) {
-    let number = 86
-    number++
+let initialState = {items: [{name: 'Dimych'}, {name: 'Ignat'}]}
+const usersReducer = (state = initialState, action: any) => {
+    return state
 }
 
-const getNumber = (number: any) => {
-    number *= 10
-    return number
-}
+const store = createStore(combineReducers({
+    users: usersReducer
+}))
 
-const bigValue= getNumber("number") || number
+store.subscribe(() => {
+    const state = store.getState()
+    console.log(state)
+})
 
-//Какое значение получит переменная bigValue? // 3
+store.dispatch({type: 'ANY'})
+
+//Что нужно написать вместо XXX, чтобы получить актуальный стейт? // store.getState()
