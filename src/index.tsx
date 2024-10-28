@@ -1,9 +1,13 @@
-const numbers = [68, 67, 72, 89]
-const mapFunction = (el: number, index: number) => el * index
-const mappedArray = numbers.map(mapFunction)
-console.log(mappedArray)
+const body = {
+    name: "Mia",
+    age: 45,
+    technologies: ["HTML", "", "REACT"]
+}
 
-const myNumber = mappedArray[0] && mappedArray[mappedArray.length - 1]
-const bigCount = 71 + myNumber
+const [address = "FOO", celebration = "BOO", board = "DOO"] = body.technologies
 
-//Какое значение получит переменная bigCount?// 71
+if(!celebration){
+    alert("HEY")
+}
+
+// Какую переменную следует указать вместо XXX, что бы была вызвана функция alert? // celebration
