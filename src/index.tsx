@@ -1,75 +1,35 @@
-import {createStore} from 'redux'
-import ReactDOM from 'react-dom'
-import {Provider, useSelector, useDispatch} from 'react-redux'
-import React from 'react'
-
-const students = {
-    students: [
-        {id: 1, name: 'Bob'},
-        {id: 2, name: 'Alex'},
-        {id: 3, name: 'Donald'},
-        {id: 4, name: 'Ann'},
-    ]
+type StateType = {
+    volume: number // in percents
+    trackUrl: string // 'https://blabla.com/track01.mp3',
+    currentPlayPosition: number // milliseconds,
 }
-type RemoveStudentAT = {
-    type: "REMOVE-STUDENT"
-    id: number
-}
-const RemoveStudentAC = (id: number): RemoveStudentAT => ({
-    type: "REMOVE-STUDENT",
-    id
-})
 
-const studentsReducer = (state = students, action: RemoveStudentAT) => {
+export const reducer = (state: StateType, action: any) => {
     switch (action.type) {
-        case "REMOVE-STUDENT":
+        case 'TRACK-URL-CHANGED':
             return {
                 ...state,
-                students: state.students.filter(s => s.id !== action.id)
+                trackUrl: action.url
             }
+        case 'TRACK-MUTED':
+            return {
+                ...state,
+                volume: 0
+            }
+        case 'TRACK-REWOUND-TO-START':
+            return {
+                ...state,
+                currentPlayPosition: 0
+            }
+        default:
+            return state
     }
-    return state
 }
 
-const store = createStore(studentsReducer)
-type RootStateType = ReturnType<typeof studentsReducer>
+const muteTrackAC = () => ({type: 'TRACK-MUTED'})
+const changeTrackAC = (url: string) => ({type: 'TRACK-URL-CHANGED', url})
+// перемотатьНаНачало:
+const rewindToStart = () => ({type: 'TRACK-REWOUND-TO-START'})
 
-
-const StudentList = () => {
-    const listItemStyles = {
-        width: "100px",
-        borderBottom: "1px solid gray",
-        cursor: "pointer",
-    }
-    const students = useSelector((state: RootStateType) => state.students)
-    const dispatch = useDispatch()
-    const studentsList = students.map(s => {
-        const removeStudent = () => {
-            dispatch(RemoveStudentAC( s.id))
-        }
-        return (
-            <li key={s.id}
-                style={listItemStyles}
-                onClick={removeStudent}>
-                {s.name}
-            </li>)
-    })
-    return (
-        <ol>
-            {studentsList}
-        </ol>
-
-    )
-}
-
-
-ReactDOM.render(<div>
-        <Provider store={store}>
-            <StudentList/>
-        </Provider>
-    </div>,
-    document.getElementById('root')
-)
-
-// Что нужно написать вместо XXX, YYY и ZZZ, чтобы при клике по имени студент
-// удалялся из списка? Напишите через пробел. // dispatch RemoveStudentAC s.id
+// Какие типы должны быть вместо XXX, YYY и ZZZ?
+// Ответ дать через пробел, например:   'BLABLA' 'HEYНЕY' 'HIPHOP' // 'TRACK-URL-CHANGED' 'TRACK-MUTED' 'TRACK-REWOUND-TO-START'
