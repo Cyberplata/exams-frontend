@@ -1,49 +1,22 @@
-import {combineReducers, createStore} from 'redux'
-import ReactDOM from 'react-dom'
-import {Provider, useSelector} from 'react-redux'
-import React from 'react'
-
-let initialState = {items:
-        [
-            {id: 1, name: 'Dimych'},
-            {id: 2, name: 'Ignat'}
-        ]
-}
-const usersReducer = (state = initialState, action: any) => {
-    return state
+export const reducer = (state: any, action: any) => {
+    switch (action.type) {
+        case 'TRACK-ADDED':
+            return [...state, {id: action.trackId, likesCount: 0}]
+        default:
+            return state
+    }
 }
 
-let authInitialState = {login: 'Margo', settings: {theme: 'dark'}}
-const authReducer = (state = authInitialState, action: any) => {
-    return state
-}
+const addTrackAC = (trackId: number) => ({type: 'TRACK-ADDED', trackId})
 
-let rootReducer = combineReducers({
-    users: usersReducer,
-    auth: authReducer
-})
 
-const store = createStore(rootReducer)
-type RootStateType = ReturnType<typeof rootReducer>
+const state = [
+    {id: 12, likesCount: 10},
+    {id: 14, likesCount: 2},
+    {id: 100, likesCount: 0}
+]
+const newState = reducer(state, addTrackAC(300))
 
-const selector = (state: RootStateType) => state.users.items
+console.log(newState[3].likesCount === 0)
 
-const Users = () => {
-
-    const users = useSelector(selector)
-
-    return <ul>
-        {users.map(u => <li key={u.id}>{u.name}</li>)}
-    </ul>
-}
-
-ReactDOM.render(<div>
-        <Provider store={store}>
-            <Users/>
-        </Provider>
-    </div>,
-    document.getElementById('root')
-)
-
-// Что нужно написать вместо XXX, чтобы отрендерить список юзеров?
-// ❗ Ответ дать минимально возможным объёмом кода // useSelector(selector)
+// Что нужно написать вместо XXX, чтобы трек корректно добавился и в консоли увидеть true? // [...state, {id: action.trackId, likesCount: 0}]
