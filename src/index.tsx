@@ -1,35 +1,43 @@
-type StateType = {
-    volume: number // in percents
-    trackUrl: string // 'https://blabla.com/track01.mp3',
-    currentPlayPosition: number // milliseconds,
-}
-
-export const reducer = (state: StateType, action: any) => {
+export const reducer = (state: any, action: any) => {
     switch (action.type) {
-        case 'TRACK-URL-CHANGED':
+        case 'USER-NAME-UPDATED':
             return {
                 ...state,
-                trackUrl: action.url
-            }
-        case 'TRACK-MUTED':
-            return {
-                ...state,
-                volume: 0
-            }
-        case 'TRACK-REWOUND-TO-START':
-            return {
-                ...state,
-                currentPlayPosition: 0
-            }
+                user: {
+                    ...state.user,
+                    name: action.name
+                }
+            };
+
         default:
             return state
     }
 }
 
-const muteTrackAC = () => ({type: 'TRACK-MUTED'})
-const changeTrackAC = (url: string) => ({type: 'TRACK-URL-CHANGED', url})
-// перемотатьНаНачало:
-const rewindToStart = () => ({type: 'TRACK-REWOUND-TO-START'})
+const updateUserNameAC = (name: string) => ({type: 'USER-NAME-UPDATED', name})
 
-// Какие типы должны быть вместо XXX, YYY и ZZZ?
-// Ответ дать через пробел, например:   'BLABLA' 'HEYНЕY' 'HIPHOP' // 'TRACK-URL-CHANGED' 'TRACK-MUTED' 'TRACK-REWOUND-TO-START'
+
+const state = {
+    count: 10,
+    user: {
+        name: 'Dimych',
+        age: 18,
+        isMarried: true,
+        status: "offline"
+    },
+    books: ['you don\'t know JS']
+}
+const newState = reducer(state, updateUserNameAC('Dmitry'))
+
+console.log(newState.user.name === 'Dmitry')
+console.log(newState.books === state.books)
+console.log(newState.user !== state.user)
+
+//Что нужно написать вместо XXX, чтобы корректно обновить имя пользователя и в консоли увидеть:  true true true?
+// {
+//                 ...state,
+//                 user: {
+//                     ...state.user,
+//                     name: action.name
+//                 }
+//             };
