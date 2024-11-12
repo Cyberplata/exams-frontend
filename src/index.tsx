@@ -1,10 +1,26 @@
-const value = 32
+import {combineReducers, createStore} from 'redux'
 
-const getValue = (value: any) => {
-    value += 49
-    return value
+let initialState = {items: [{name: 'Dimych'}, {name: 'Ignat'}]}
+const usersReducer = (state = initialState, action: any) => {
+    return state
 }
 
-const myResult= getValue("") || value
+let authInitialState = {login: 'Margo', settings: {theme: 'dark'}}
+const authReducer = (state = authInitialState, action: any) => {
+    return state
+}
 
-//Какое значение получит переменная myResult? "49"
+const store = createStore(combineReducers({
+    users: usersReducer,
+    auth: authReducer
+}))
+
+store.subscribe(() => {
+    const login = store.getState().auth.login
+    console.log(login)
+})
+
+store.dispatch({type: 'ANY'})
+export default store;
+
+// Что нужно написать вместо XXX, чтобы в консоли увидеть 'Margo'? auth: authReducer
