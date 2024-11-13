@@ -1,45 +1,67 @@
-export const reducer = (state: any, action: any) => {
+import React from 'react'
+import { createStore } from 'redux'
+import { Provider, useSelector, useDispatch } from 'react-redux'
+import ReactDOM from 'react-dom'
+
+type StudentType = {
+    id: number
+    name: string
+    age: number
+}
+
+const initState = {
+    students:
+        [
+            {id: 1, name: 'Bob', age: 23},
+            {id: 2, name: 'Alex', age: 22}
+        ] as Array<StudentType>
+}
+type AddStudentAT = {
+    type: 'ADD-STUDENT'
+    name: string
+    age: number
+    id: number
+}
+
+type InitialStateType = typeof initState
+
+const studentsReducer = (state: InitialStateType = initState, action: AddStudentAT): InitialStateType => {
     switch (action.type) {
-        case 'USER-NAME-UPDATED':
+        case 'ADD-STUDENT':
             return {
                 ...state,
-                user: {
-                    ...state.user,
-                    name: action.name
-                }
+                students: [...state.students, {
+                    name: action.name,
+                    age: action.age,
+                    id: action.id
+                }]
             }
-
-        default:
-            return state
     }
+    return state
 }
 
-const updateUserNameAC = (name: string) => ({type: 'USER-NAME-UPDATED', name})
+const appStore = createStore(studentsReducer)
+type RootStateType = ReturnType<typeof studentsReducer>
 
 
-const state = {
-    count: 10,
-    user: {
-        name: 'Dimych',
-        age: 18,
-        isMarried: true,
-        status: "offline"
-    },
-    books: ['you don\'t know JS']
+const StudentList = () => {
+    const students = useSelector((state: RootStateType) => state.students)
+    return (
+        <ul>
+            {students.map(s => <li key={s.id}>{`${s.name}. ${s.age} years.`}</li>)}
+        </ul>
+    )
 }
-const newState = reducer(state, updateUserNameAC('Dmitry'))
+const App = () => {
+    return <StudentList/>
+}
 
-console.log(newState.user.name === 'Dmitry')
-console.log(newState.books === state.books)
-console.log(newState.user !== state.user)
+ReactDOM.render(<div>
+        <Provider store={appStore}>
+            <App/>
+        </Provider>
+    </div>,
+    document.getElementById('root')
+)
 
-//Что нужно написать вместо XXX, чтобы корректно обновить имя пользователя и в консоли увидеть:  true true true?
-/*
-* {
-                ...state,
-                user: {
-                    ...state.user,
-                    name: action.name
-                }
-            }
-* */
+// Что нужно написать вместо XXX, YYY и ZZZ, чтобы отобразился список студентов? // Provider store appStore
