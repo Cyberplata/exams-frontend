@@ -37,17 +37,25 @@ type PostType = {
     userId: number
 }
 
+type Post1Type = {
+    id: number,
+} & PostType
+
 // Api
 const instance = axios.create({baseURL: 'https://jsonplaceholder.typicode.com/'})
 
-const usersAPI = {
+const jsonPlaceholderAPI = {
     getUsers() {
         return instance.get<UserType[]>('users')
     },
-    createPosts(payload: {title: string, body: string, userId: number}) {
+    createPosts(payload: { title: string, body: string, userId: number }) {
         const {title, body, userId} = payload
         return instance.post<PostType>('posts', {title, body, userId})
     },
+    updatePost(payload: { id: number, title: string, body: string }) {
+        const {id, title, body} = payload
+        return instance.put<Post1Type>(`posts/${id}`, {title, body})
+    }
 }
 
 
@@ -58,7 +66,7 @@ export const App = () => {
     const [posts, setPosts] = useState<PostType[]>([]);
 
     useEffect(() => {
-        usersAPI.getUsers()
+        jsonPlaceholderAPI.getUsers()
             .then((res) => {
                 console.log(res.data)
                 setUsers(res.data)
@@ -66,12 +74,12 @@ export const App = () => {
     }, [])
 
     const createPostHandler = (title: string, body: string, userId: number) => {
-        usersAPI.createPosts({title, body, userId})
+        jsonPlaceholderAPI.createPosts({title, body, userId})
             .then((res) => {
                 console.log(res.data)
                 const newPost = res.data
                 setPosts([...posts, newPost])
-        }).catch(err => {
+            }).catch(err => {
             console.log("Ошибка при создании поста:", err)
         })
     }
