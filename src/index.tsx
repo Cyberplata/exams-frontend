@@ -76,3 +76,4 @@ root.render(<App/>)
 // Исправленную версию строки напишите в качестве ответа.
 //
 // 🖥 Пример ответа: return Promise.resolve(payload)
+// return instance.post<CommentType>('comments', payload)
