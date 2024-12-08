@@ -30,12 +30,29 @@ type UserType = {
     company: CompanyNameType
 
 }
-
-type BaseResponse = {
-    title: string
-    body: string
-    userId: string
-}
+//{
+//     "id": 1,
+//     "name": "Leanne Graham",
+//     "username": "Bret",
+//     "email": "Sincere@april.biz",
+//     "address": {
+//     "street": "Kulas Light",
+//         "suite": "Apt. 556",
+//         "city": "Gwenborough",
+//         "zipcode": "92998-3874",
+//         "geo": {
+//         "lat": "-37.3159",
+//             "lng": "81.1496"
+//     }
+// },
+//     "phone": "1-770-736-8031 x56442",
+//     "website": "hildegard.org",
+//     "company": {
+//     "name": "Romaguera-Crona",
+//         "catchPhrase": "Multi-layered client-server neural-net",
+//         "bs": "harness real-time e-markets"
+// }
+// },
 
 // Api
 const instance = axios.create({baseURL: 'https://jsonplaceholder.typicode.com/'})
@@ -43,10 +60,6 @@ const instance = axios.create({baseURL: 'https://jsonplaceholder.typicode.com/'}
 const usersAPI = {
     getUsers() {
         return instance.get<UserType[]>('users')
-    },
-    createPosts(payload: {title: string, body: string, userId: 1}) {
-        const {title, body, userId} = payload
-        return instance.post<BaseResponse>('posts', {title, body, userId})
     },
 }
 
@@ -69,7 +82,7 @@ export const App = () => {
             <h1>📝 Список юзеров</h1>
             {
                 users.map(c => {
-                    return <div key={c.id}><b>User</b>: {c.name} <b>City</b>: {c.address.city} </div>
+                    return <div key={c.id}><b>Users</b>: {c.name} </div>
                 })
             }
         </>
