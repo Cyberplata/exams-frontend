@@ -1,23 +1,62 @@
-export const reducer = (state: any, action: any) => {
-    switch (action.type) {
-        case 'TRACK-DELETED':
-            return state.filter((track: any) => track.id !== action.trackId)
-        default:
-            return state
-    }
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import ReactDOM from 'react-dom/client';
+
+// Types
+type TodoType = {
+    id: string;
+    tile: string;
+    order: number;
+    createdAt: string;
+    updatedAt: string;
+    completed: boolean;
 }
 
-const deleteTrackAC = (trackId: number) => ({type: 'TRACK-DELETED', trackId})
+
+// Api
+const instance = axios.create({baseURL: 'https://exams-frontend.kimitsu.it-incubator.io/api/'})
+
+const todosAPI = {
+    getTodos() {
+        return instance.get<TodoType[]>('todos')
+    },
+}
 
 
-const state = [
-    {id: 12, likesCount: 10},
-    {id: 14, likesCount: 2},
-    {id: 100, likesCount: 0}
-]
-const newState = reducer(state, deleteTrackAC(14))
+// App
+const App = () => {
 
-console.log(newState.length === 2)
+    const [todos, setTodos] = useState<TodoType[]>([])
+
+    useEffect(() => {
+        todosAPI.getTodos().then((res) => setTodos(res.data))
+    }, [])
+
+    return (
+        <>
+            <h2>✅ Список тудулистов</h2>
+            {
+                todos.map((t) => {
+                    return (
+                        <div style={t.completed ? {color: 'grey'} : {}} key={t.id}>
+                            <input type="checkbox" checked={t.completed}/>
+                            <b>Описание</b>: {t.tile}
+                        </div>
+                    )
+                })
+            }
+        </>
+    )
+}
 
 
-// Что нужно написать вместо XXX, чтобы корректно удалить трек и в консоли увидеть true? // track.id !== action.trackId
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+root.render(<App/>)
+
+// 📜 Описание:
+// При написании типизации по невнимательности было допущено несколько ошибок.
+// Напишите через пробел правильные свойства в TodoType, в которых была допущена ошибка.
+// Debugger / network / документация вам в помощь
+
+// 🖥 Пример ответа: id status isDone
+// complete completed boolean
