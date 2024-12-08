@@ -31,10 +31,10 @@ type UserType = {
 
 }
 
-type BaseResponse = {
+type PostType = {
     title: string
     body: string
-    userId: string
+    userId: number
 }
 
 // Api
@@ -44,9 +44,9 @@ const usersAPI = {
     getUsers() {
         return instance.get<UserType[]>('users')
     },
-    createPosts(payload: {title: string, body: string, userId: 1}) {
+    createPosts(payload: {title: string, body: string, userId: number}) {
         const {title, body, userId} = payload
-        return instance.post<BaseResponse>('posts', {title, body, userId})
+        return instance.post<PostType>('posts', {title, body, userId})
     },
 }
 
@@ -55,6 +55,7 @@ const usersAPI = {
 export const App = () => {
 
     const [users, setUsers] = useState<UserType[]>([])
+    const [posts, setPosts] = useState<PostType[]>([]);
 
     useEffect(() => {
         usersAPI.getUsers()
@@ -64,6 +65,17 @@ export const App = () => {
             })
     }, [])
 
+    const createPostHandler = (title: string, body: string, userId: number) => {
+        usersAPI.createPosts({title, body, userId})
+            .then((res) => {
+                console.log(res.data)
+                const newPost = res.data
+                setPosts([...posts, newPost])
+            }).catch(err => {
+            console.log("Ошибка при создании поста:", err)
+        })
+    }
+
     return (
         <>
             <h1>📝 Список юзеров</h1>
@@ -72,6 +84,21 @@ export const App = () => {
                     return <div key={c.id}><b>User</b>: {c.name} <b>City</b>: {c.address.city} </div>
                 })
             }
+            <h1>Создать пост</h1>
+            <button onClick={() => createPostHandler('Test', 'This is a test post', 1)}>Создать пост</button>
+
+            {posts.length > 0 && (
+                <div>
+                    <h2>Созданные посты с userId === 1:</h2>
+                    {posts.filter(p => p.userId === 1).map((p) => (
+                        <div key={p.userId} style={{marginBottom: '10px'}}>
+                            <div><b>Заголовок:</b> {p.title}</div>
+                            <div><b>Тело:</b> {p.body}</div>
+                            <div><b>UserID:</b> {p.userId}</div>
+                        </div>
+                    ))}
+                </div>
+            )}
         </>
     )
 }
