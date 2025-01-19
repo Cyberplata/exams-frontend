@@ -6,67 +6,84 @@ import axios from "axios";
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
 // Types
-type CommentType = {
-   postId: string;
-   id: string;
-   name: string;
-   email: string;
+type PostType = {
    body: string;
+   id: string;
+   title: string;
+   userId: string;
+};
+
+type PayloadType = {
+   title: string;
+   body?: string;
 };
 
 // Api
 const instance = axios.create({ baseURL: "https://exams-frontend.kimitsu.it-incubator.io/api/" });
 
-const commentsAPI = {
-   getComments() {
-      return instance.get<CommentType[]>("comments");
+const postsAPI = {
+   getPosts() {
+      return instance.get<PostType[]>("posts");
    },
-   createComment() {
-      const payload = {
-         body: "Это просто заглушка. Backend сам сгенерирует новый комментарий и вернет его вам",
-      };
-      return instance.post("comments", payload);
+   updatePostTitle(postId: string, post: PayloadType) {
+      return instance.put<PostType>(`posts/${postId}`, post);
    },
 };
 
 // Reducer
-const initState = [] as CommentType[];
+const initState = [] as PostType[];
 
 type InitStateType = typeof initState;
 
-const commentsReducer = (state: InitStateType = initState, action: ActionsType) => {
+const postsReducer = (state: InitStateType = initState, action: ActionsType): InitStateType => {
    switch (action.type) {
-      case "COMMENTS/GET-COMMENTS":
-         return action.comments;
-      case "COMMENTS/CREATE-COMMENT":
-         return [action.comment, ...state];
+      case "POSTS/GET-POSTS":
+         return action.posts;
+
+      case "POSTS/UPDATE-POST-TITLE":
+         return state.map((p) => {
+            if (p.id === action.post.id) {
+               return { ...p, title: action.post.title };
+            } else {
+               return p;
+            }
+         });
+
       default:
          return state;
    }
 };
 
-const getCommentsAC = (comments: CommentType[]) =>
-   ({ type: "COMMENTS/GET-COMMENTS", comments }) as const;
-const createCommentAC = (comment: CommentType) =>
-   ({ type: "COMMENTS/CREATE-COMMENT", comment }) as const;
+const getPostsAC = (posts: PostType[]) => ({ type: "POSTS/GET-POSTS", posts }) as const;
+const updatePostTitleAC = (post: PostType) => ({ type: "POSTS/UPDATE-POST-TITLE", post }) as const;
+type ActionsType = ReturnType<typeof getPostsAC> | ReturnType<typeof updatePostTitleAC>;
 
-type ActionsType = ReturnType<typeof getCommentsAC> | ReturnType<typeof createCommentAC>;
-
-const getCommentsTC = (): AppThunk => (dispatch) => {
-   commentsAPI.getComments().then((res) => {
-      dispatch(getCommentsAC(res.data));
+const getPostsTC = (): AppThunk => (dispatch) => {
+   postsAPI.getPosts().then((res) => {
+      dispatch(getPostsAC(res.data));
    });
 };
 
-const addCommentTC = (): AppThunk => (dispatch) => {
-   commentsAPI.createComment().then((res) => {
-      dispatch(createCommentAC(res.data));
-   });
-};
+const updatePostTC =
+   (postId: string): AppThunk =>
+      (dispatch, getState: any) => {
+         try {
+            const currentPost = getState().posts.find((p: PostType) => p.id === postId);
+
+            if (currentPost) {
+               const payload = { title: "Это просто заглушка. Backend сам сгенерирует новый title" };
+               postsAPI.updatePostTitle(postId, payload).then((res) => {
+                  dispatch(updatePostTitleAC(res.data));
+               });
+            }
+         } catch (e) {
+            alert("Обновить пост не удалось 😢");
+         }
+      };
 
 // Store
 const rootReducer = combineReducers({
-   comments: commentsReducer,
+   posts: postsReducer,
 });
 
 const store = configureStore({ reducer: rootReducer });
@@ -79,27 +96,24 @@ const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 // App
 const App = () => {
    const dispatch = useAppDispatch();
-   const comments = useAppSelector((state) => state.comments);
+   const posts = useAppSelector((state) => state.posts);
 
    useEffect(() => {
-      dispatch(getCommentsTC());
+      dispatch(getPostsTC());
    }, []);
 
-   const addCommentHandler = () => {
-      // alert("Комментарий добавить не получилось. Напишите код самостоятельно 🚀");
-      dispatch(addCommentTC())
+   const updatePostHandler = (postId: string) => {
+      dispatch(updatePostTC(postId));
    };
 
    return (
       <>
-         <h1>📝 Список комментариев</h1>
-         <button style={{ marginBottom: "10px" }} onClick={addCommentHandler}>
-            Добавить новый комментарий
-         </button>
-         {comments.map((p) => {
+         <h1>📜 Список постов</h1>
+         {posts.map((p) => {
             return (
                <div key={p.id}>
-                  <b>описание</b>: {p.body}
+                  <b>title</b>: {p.title}
+                  <button onClick={() => updatePostHandler(p.id)}>Обновить пост</button>
                </div>
             );
          })}
@@ -115,9 +129,9 @@ root.render(
 );
 
 // 📜 Описание:
-// При нажатии на кнопку "Добавить новый комментарий" комментарий должен добавиться,
-// но появляется alert.
-// Вместо alerta напишите код, чтобы комментарий добавлялся.
-// Правильную версию строки напишите в качестве ответа.
+// Попробуйте обновить пост и вы увидите alert с ошибкой.
+// Debugger / network / console.log вам в помощь
+// Найдите ошибку и вставьте исправленную строку кода в качестве ответа.
 
-// 🖥 Пример ответа: return instance.get<CommentType[]>('comments?_limit=10')
+// 🖥 Пример ответа: const payload = {...currentPost, tile: 'Летим 🚀'}
+// const currentPost = getState().posts.find((p: PostType) => p.id === postId);
