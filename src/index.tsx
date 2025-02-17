@@ -1,61 +1,107 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { Provider, TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
+import axios from "axios";
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
 // Types
-type PhotoType = {
-   albumId: string;
+type PostDomainType = PostType & {
+   isDisabled: boolean;
+};
+
+type PostType = {
+   body: string;
    id: string;
    title: string;
-   url: string;
+   userId: string;
 };
 
 // Api
 const instance = axios.create({ baseURL: "https://exams-frontend.kimitsu.it-incubator.io/api/" });
 
-const photosAPI = {
-   getPhotos() {
-      return instance.get<PhotoType[]>("photos?delay=2");
+const postsAPI = {
+   getPosts() {
+      return instance.get<PostType[]>("posts");
+   },
+   deletePost(id: string) {
+      return instance.delete<{ message: string }>(`posts/${id}?delay=3`);
    },
 };
 
 // Reducer
 const initState = {
    isLoading: false,
-   photos: [] as PhotoType[],
+   posts: [] as PostDomainType[],
 };
 
 type InitStateType = typeof initState;
 
-const photoReducer = (state: InitStateType = initState, action: ActionsType): InitStateType => {
+const postsReducer = (state: InitStateType = initState, action: ActionsType): InitStateType => {
    switch (action.type) {
-      case "PHOTO/GET-PHOTOS":
-         return { ...state, photos: action.photos };
-      case "PHOTO/IS-LOADING":
+      case "POSTS/GET-POSTS":
+         return {
+            ...state,
+            posts: action.posts.map((t) => {
+               return { ...t, isDisabled: false };
+            }),
+         };
+
+      case "POSTS/DELETE-POST":
+         return { ...state, posts: state.posts.filter((t) => t.id !== action.id) };
+
+      case "POSTS/IS-LOADING":
          return { ...state, isLoading: action.isLoading };
+
+      case "POSTS/IS-DISABLED":
+         return {
+            ...state,
+            posts: state.posts.map((t) => {
+               if (t.id === action.id) {
+                  return { ...t, isDisabled: action.isDisabled };
+               } else {
+                  return t;
+               }
+            }),
+         };
+
       default:
          return state;
    }
 };
 
-const getPhotosAC = (photos: PhotoType[]) => ({ type: "PHOTO/GET-PHOTOS", photos }) as const;
-const setLoadingAC = (isLoading: boolean) => ({ type: "PHOTO/IS-LOADING", isLoading }) as const;
-type ActionsType = ReturnType<typeof getPhotosAC> | ReturnType<typeof setLoadingAC>;
+const getPostsAC = (posts: PostType[]) => ({ type: "POSTS/GET-POSTS", posts }) as const;
+const deletePostAC = (id: string) => ({ type: "POSTS/DELETE-POST", id }) as const;
+const setLoadingAC = (isLoading: boolean) => ({ type: "POSTS/IS-LOADING", isLoading }) as const;
+const setIsDisabled = (isDisabled: boolean, id: string) =>
+   ({ type: "POSTS/IS-DISABLED", isDisabled, id }) as const;
+type ActionsType =
+   | ReturnType<typeof getPostsAC>
+   | ReturnType<typeof deletePostAC>
+   | ReturnType<typeof setLoadingAC>
+   | ReturnType<typeof setIsDisabled>;
 
-const getPhotosTC = (): AppThunk => (dispatch) => {
-   dispatch(setLoadingAC(true));
-   photosAPI.getPhotos().then((res) => {
-      dispatch(setLoadingAC(false))
-      dispatch(getPhotosAC(res.data));
+// Thunk
+const getPostsTC = (): AppThunk => (dispatch) => {
+   postsAPI.getPosts().then((res) => {
+      dispatch(getPostsAC(res.data));
    });
 };
 
+const deletePostTC =
+   (id: string): AppThunk =>
+      (dispatch) => {
+         dispatch(setIsDisabled(true, id));
+         dispatch(setLoadingAC(true));
+         postsAPI.deletePost(id).then((res) => {
+            dispatch(deletePostAC(id));
+            dispatch(setLoadingAC(false));
+         });
+      };
+
 // Store
 const rootReducer = combineReducers({
-   photo: photoReducer,
+   posts: postsReducer,
 });
 
 const store = configureStore({ reducer: rootReducer });
@@ -73,31 +119,34 @@ export const Loader = () => {
 // App
 const App = () => {
    const dispatch = useAppDispatch();
-   const photos = useAppSelector((state) => state.photo.photos);
-   const isLoading = useAppSelector((state) => state.photo.isLoading);
+   const posts = useAppSelector((state) => state.posts.posts);
+   const isLoading = useAppSelector((state) => state.posts.isLoading);
 
-   const getPhotosHandler = () => {
-      dispatch(getPhotosTC());
+   useEffect(() => {
+      dispatch(getPostsTC());
+   }, []);
+
+   const deletePostHandler = (id: string) => {
+      dispatch(deletePostTC(id));
    };
 
    return (
-      <>
-         <h1>📸 Фото</h1>
-         <button onClick={getPhotosHandler}>Подгрузить фотографии</button>
-         {isLoading && <Loader />}
-         <div style={{ display: "flex", gap: "20px", margin: "20px" }}>
-            {photos.map((p) => {
+      <div>
+         <div style={{ position: "absolute", top: "0px" }}>{isLoading && <Loader />}</div>
+         <div style={{ marginTop: "100px" }}>
+            <h1>📜 Список постов</h1>
+            {posts.map((p) => {
                return (
                   <div key={p.id}>
                      <b>title</b>: {p.title}
-                     <div>
-                        <img src={p.url} alt="" />
-                     </div>
+                     <button style={{ marginLeft: "15px" }} onClick={() => deletePostHandler(p.id)} disabled={p.isDisabled}>
+                        удалить пост
+                     </button>
                   </div>
                );
             })}
          </div>
-      </>
+      </div>
    );
 };
 
@@ -109,12 +158,18 @@ root.render(
 );
 
 // 📜 Описание:
-// При нажатии на кнопку "Подгрузить фотографии" вы должны увидеть Loading...,
-// и через 3 секунды непосредственно фотографии.
-// Но после подгрузки данных Loader не убирается.
-// Какой код нужно написать, чтобы Loader перестал отображаться после получения данных
-// В качестве ответа напишите строку кода.
+// Перед вами список постов.
+// Откройте network и быстро нажмите на кнопку удалить пост несколько раз подряд.
+// Откройте вкладку Preview и проанализируйте ответ с сервера
+// Первое сообщение будет "Post has been successfully deleted",
+// а следующие "Post with id: 63626ac315d01f80765587ee does not exist"
+// Т.е. бэкенд первый раз удаляет, а потом уже не может, т.к. пост удален из базы данных.
 
-// 🖥 Пример ответа: console.log('stop Loader')
+// Ваша задача при первом клике задизаблить кнопку удаления,
+// соответсвенно не давать пользователю возможности слать повторные запросы.
+// ❗ Необходимо задизаблить кнопку именно удаляемого поста, а не все кнопки.
+// Необходимую строку кода для решения этой задачи напишите в качестве ответа.
 
-// dispatch(setLoadingAC(false))
+// 🖥 Пример ответа: style={{marginRight: '20px'}}
+
+// disabled={p.isDisabled}
